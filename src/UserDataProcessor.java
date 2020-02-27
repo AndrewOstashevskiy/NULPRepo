@@ -20,6 +20,7 @@ public class UserDataProcessor {
 
             Printer.printMessage("User "+ name + " is identified");
             Printer.printMessage("There are a few interesting things about your name:");
+
             int nameLength = userDataService.getUserNameLength();
             long nameLengthFactorial = userDataService.getUserNameLengthFactorial();
 
@@ -29,26 +30,36 @@ public class UserDataProcessor {
             Printer.printMessage("I don't know why but I believe you wand and must to know this secret info....");
             Printer.printMessage("Ok, lets go ahead..");
             Printer.printMessage("Now you can request your age to this moment or to any moment in the past or future");
+
             while (condition) {
+
                 Printer.printMessage("Print your birthday date or other date in the past, in"
                         + " format: yyyy/mm/dd");
                 String startDate = buffReader.readLine();
                 Thread.sleep(100);
                 Printer.printMessage("And current or future date in the same format... "
                         + "(If it is current date, just print - now - without '-' )");
-                String endDate = buffReader.readLine();
 
+                String endDate = buffReader.readLine();
                 String datePeriod = userDataService.processDatePeriod(startDate, endDate);
 
                 Printer.printMessage("Date period is: " + datePeriod);
+
                 Thread.sleep(100);
+
                 Printer.printMessage("Do you wana to input other date range? (Y/N)");
+
                 String answer = buffReader.readLine();
+
                 if (answer.equalsIgnoreCase("Y")) {
                     Printer.printMessage("Oh...");
                     continue;
-                } else {
+                } else if (answer.equalsIgnoreCase("N")){
                     Printer.printMessage("Nice, at least");
+                    condition = false;
+                } else {
+                    Printer.printMessage("Okeeeeey... I suppose it means NO? Isn't it?");
+                    Printer.printMessage("Anyway bye....");
                     condition = false;
                 }
             }

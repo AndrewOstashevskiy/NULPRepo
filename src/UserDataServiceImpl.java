@@ -20,32 +20,24 @@ public class UserDataServiceImpl implements UserDataService {
 
     @Override
     public String processDatePeriod(String startDate, String endDate) {
-
-        CustomDate start = convertDate(startDate);
-
-        if (endDate.equalsIgnoreCase("now")) {
-            return DataCalculationServiceImpl.getTimePeriod(start);
-        }
-
-        CustomDate end = convertDate(endDate);
+        CustomDate start;
+        CustomDate end;
         String period = null;
+
         try {
+            start = convertDate(startDate);
+
+            if (endDate.equalsIgnoreCase("now")) {
+                return DataCalculationServiceImpl.getTimePeriod(start);
+            }
+
+            end = convertDate(endDate);
             period = DataCalculationServiceImpl.getTimePeriod(start, end);
+
         } catch (NullPointerException e) {
 
-        }
-        return period;
-    }
-
-    private CustomDate convertDate(String date) {
-        String[] parsedDate = date.split("/");
-        CustomDate customDate = null;
-        try {
-            customDate = new CustomDate(Integer.valueOf(parsedDate[0]),
-                    Integer.valueOf(parsedDate[1]),
-                    Integer.valueOf(parsedDate[2]));
         } catch (NumberFormatException e) {
-            if (counter >= 2) {
+            if (counter >= 1) {
                 Printer.printMessage("Again????? Oh.. anyway... Lets try again");
                 counter++;
             } else {
@@ -53,6 +45,14 @@ public class UserDataServiceImpl implements UserDataService {
                 counter++;
             }
         }
+        return period;
+    }
+
+    private CustomDate convertDate(String date) throws NumberFormatException {
+        String[] parsedDate = date.split("/");
+        CustomDate customDate = new CustomDate(Integer.valueOf(parsedDate[0]),
+                Integer.valueOf(parsedDate[1]),
+                Integer.valueOf(parsedDate[2]));
         return customDate;
     }
 

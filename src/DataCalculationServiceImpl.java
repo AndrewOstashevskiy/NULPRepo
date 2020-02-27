@@ -5,8 +5,9 @@ import java.time.temporal.ChronoUnit;
 public class DataCalculationServiceImpl  {
 
     public static String getTimePeriod(CustomDate startDate, CustomDate endDate) {
-        LocalDateTime fromDateTime = null;
-        LocalDateTime toDateTime = null;
+        LocalDateTime fromDateTime;
+        LocalDateTime toDateTime;
+        String period = null;
         try {
             fromDateTime = LocalDateTime.of(startDate.getYears(),
                     startDate.getMonth(),
@@ -22,24 +23,32 @@ public class DataCalculationServiceImpl  {
                     0,
                     0);
 
-        }catch (DateTimeException e) {
+            period = getPeriod(fromDateTime, toDateTime);
+        } catch (DateTimeException e) {
             Printer.printMessage("You don't know date formats bro..");
         }
-
-        return getPeriod(fromDateTime, toDateTime);
+        return period;
     }
 
     public static String getTimePeriod(CustomDate startDate) {
-        LocalDateTime fromDateTime = LocalDateTime.of(startDate.getYears(),
-                startDate.getMonth(),
-                startDate.getDays(),
-                0,
-                0,
-                0);
+        LocalDateTime fromDateTime;
+        LocalDateTime toDateTime;
+        String period = null;
+        try {
+            fromDateTime = LocalDateTime.of(startDate.getYears(),
+                    startDate.getMonth(),
+                    startDate.getDays(),
+                    0,
+                    0,
+                    0);
 
-        LocalDateTime toDateTime = LocalDateTime.now();
+            toDateTime = LocalDateTime.now();
 
-        return getPeriod(fromDateTime, toDateTime);
+            period = getPeriod(fromDateTime, toDateTime);
+        } catch (DateTimeException e) {
+            Printer.printMessage("You don't know date formats bro..");
+        }
+        return period;
     }
 
     private static String getPeriod(LocalDateTime fromDateTime, LocalDateTime toDateTime) {
